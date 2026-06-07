@@ -1,243 +1,325 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Danny Chen | GMA @ Cathay Financial Holdings</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0c0c0e;
-      --surface: #141416;
-      --surface2: #1a1a1d;
-      --border: rgba(255,255,255,0.07);
-      --border-hover: rgba(255,255,255,0.15);
-      --text: #f0ede8;
-      --muted: rgba(240,237,232,0.45);
-      --accent: #c9a96e;
-      --accent-dim: rgba(201,169,110,0.10);
+      --dark: #02021a;
+      --dark2: #08084a;
+      --white: #ffffff;
+      --off: rgba(255,255,255,0.7);
+      --accent: #23d5ab; /* teal-green, simplefolio signature */
+      --accent2: #23a6d5;
     }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
       font-weight: 300;
-      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 3rem;
-      background: rgba(12,12,14,0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+    /* ── NAV ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: flex-end; align-items: center;
+      padding: 1.5rem 3rem;
+      transition: background 0.3s, box-shadow 0.3s;
     }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-weight: 400; letter-spacing: 0.08em;
-      color: var(--text); text-decoration: none;
+    #navbar.scrolled {
+      background: rgba(2,2,26,0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.4);
     }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
-      color: var(--muted); font-size: 0.75rem; letter-spacing: 0.12em;
-      text-transform: uppercase; text-decoration: none; transition: color 0.2s;
+      color: var(--white); font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--accent); }
 
-    /* HERO */
+    /* ── HERO ── */
     #hero {
       min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 8rem 3rem 4rem;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 0 3rem;
+      background:
+        linear-gradient(135deg, #02021a 0%, #0a0a3a 50%, #02021a 100%);
       position: relative; overflow: hidden;
     }
-    .hero-bg {
+    .hero-particles {
       position: absolute; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 20% 70%, rgba(201,169,110,0.04) 0%, transparent 60%);
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(35,213,171,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(35,166,213,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 60% 80%, rgba(35,213,171,0.05) 0%, transparent 30%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 780px; }
-    .hero-eyebrow {
-      font-size: 0.70rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1.5rem;
-      display: flex; align-items: center; gap: 0.75rem;
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-greeting {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 400; color: var(--off);
+      margin-bottom: 0.5rem;
     }
-    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
     .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 8vw, 6.5rem);
-      font-weight: 300; line-height: 1.05;
-      margin-bottom: 1.25rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 1rem;
     }
-    .hero-sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; max-width: 520px; }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.7rem 1.6rem;
-      font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
-      font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; border: none; cursor: pointer;
-      transition: all 0.22s; border-radius: 2px;
+    .hero-name .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .btn-primary { background: var(--accent); color: #0c0c0e; }
-    .btn-primary:hover { background: #dbbf7e; }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-hover); }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-    .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 3rem;
-      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--muted); display: flex; align-items: center; gap: 0.5rem;
-      animation: bounce 2.5s ease-in-out infinite;
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--off); margin-bottom: 2.5rem; line-height: 1.5;
     }
-    .hero-scroll::after { content: '↓'; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+    .hero-cta {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 4px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(35,213,171,0.3);
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(35,213,171,0.45);
+    }
 
-    /* SECTIONS */
-    section { padding: 5rem 3rem; border-top: 1px solid var(--border); }
-    .section-label {
-      font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 2.5rem;
-      display: flex; align-items: center; gap: 0.75rem;
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700; text-align: center;
+      margin-bottom: 1rem;
     }
-    .section-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent); }
+    .section-title .text-color-main {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-separator {
+      display: block; width: 60px; height: 3px; margin: 0 auto 3.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+    }
 
-    /* ABOUT — compact two-col */
-    .about-grid {
+    /* ── ABOUT ── */
+    #about { background: #06062a; }
+    .about-wrapper {
       display: grid;
-      grid-template-columns: 1fr 1.8fr;
-      gap: 4rem; align-items: start;
-      max-width: 900px;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      max-width: 1000px; margin: 0 auto;
     }
-    .about-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 300; line-height: 1.25; color: var(--text);
+    .about-img-wrap { display: flex; justify-content: center; }
+    .about-img {
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+      box-shadow: 0 0 40px rgba(35,213,171,0.2);
+      background: #141440;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
     }
-    .about-title em { font-style: italic; color: var(--accent); }
-    .about-meta { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .about-meta-item { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; }
-    .about-meta-item span { color: var(--accent); }
-    .about-body { color: var(--muted); line-height: 1.85; font-size: 0.9rem; }
-    .about-body p + p { margin-top: 1rem; }
+    .about-info-text {
+      color: var(--off); line-height: 1.8; font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .about-cta {
+      display: inline-block; margin-top: 0.5rem;
+      padding: 0.75rem 2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+      transition: all 0.22s;
+    }
+    .about-cta:hover {
+      background: var(--accent); color: var(--dark);
+    }
 
-    /* PROJECTS */
-    .projects-grid {
+    /* ── PROJECTS ── */
+    #projects { background: var(--dark); }
+    .projects-wrapper { max-width: 1000px; margin: 0 auto; }
+    .project-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border);
-      max-width: 900px;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: start;
+      margin-bottom: 1px;
+      padding: 3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .project-card {
-      background: var(--surface);
-      padding: 1.75rem;
-      cursor: pointer;
-      transition: background 0.22s;
-      position: relative;
-      grid-column: span 1;
+    .project-row:last-child { border-bottom: none; }
+
+    .project-text-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 0.75rem; color: var(--white);
     }
-    .project-card.open {
-      grid-column: 1 / -1;
-      background: var(--surface2);
-    }
-    .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .project-tag {
-      font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 0.75rem;
+      display: inline-block; margin-bottom: 0.75rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--accent);
+      color: var(--accent); border-radius: 3px;
     }
-    .project-toggle {
-      font-size: 1rem; color: var(--muted);
-      transition: transform 0.3s;
-      line-height: 1; margin-top: 0.1rem;
-      flex-shrink: 0;
+    .project-desc {
+      color: var(--off); font-size: 0.95rem; line-height: 1.75;
+      margin-bottom: 1.5rem;
     }
-    .project-card.open .project-toggle { transform: rotate(45deg); color: var(--accent); }
-    .project-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem; font-weight: 400; color: var(--text);
-      margin-bottom: 0.6rem; line-height: 1.3;
-    }
-    .project-summary { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
 
-    /* Expanded content */
-    .project-expanded {
+    /* Expandable detail */
+    .project-detail-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent); padding: 0;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: opacity 0.2s;
+    }
+    .project-detail-toggle:hover { opacity: 0.75; }
+    .project-detail-toggle .arrow {
+      display: inline-block; transition: transform 0.3s;
+    }
+    .project-detail-toggle.open .arrow { transform: rotate(180deg); }
+
+    .project-detail-body {
       max-height: 0; overflow: hidden;
-      transition: max-height 0.45s ease, opacity 0.35s ease;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
       opacity: 0;
     }
-    .project-card.open .project-expanded {
-      max-height: 600px; opacity: 1;
+    .project-detail-body.open { max-height: 400px; opacity: 1; }
+    .project-detail-inner {
+      padding-top: 1.25rem;
     }
-    .project-expanded-inner {
-      border-top: 1px solid var(--border);
-      margin-top: 1.5rem; padding-top: 1.5rem;
-      display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem;
+    .project-detail-inner p {
+      color: var(--off); font-size: 0.9rem; line-height: 1.8;
+      margin-bottom: 1rem;
     }
-    .project-detail-label {
-      font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 0.75rem;
-    }
-    .project-detail-text { font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
-    .project-links { display: flex; flex-direction: column; gap: 0.6rem; }
+    .project-links { display: flex; flex-direction: column; gap: 0.5rem; }
     .project-link {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-size: 0.78rem; color: var(--text);
-      text-decoration: none; padding: 0.6rem 0.9rem;
-      border: 1px solid var(--border); border-radius: 2px;
-      transition: border-color 0.2s, color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; color: var(--white);
+      text-decoration: none; padding: 0.5rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 3px; transition: border-color 0.2s, color 0.2s;
+      width: fit-content;
     }
     .project-link:hover { border-color: var(--accent); color: var(--accent); }
-    .project-link-icon { font-size: 0.9rem; }
 
-    /* CONTACT */
-    #contact { text-align: center; }
-    .contact-inner { max-width: 540px; margin: 0 auto; }
-    .contact-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      font-weight: 300; line-height: 1.1; margin-bottom: 1rem;
+    /* Project image side */
+    .project-img-wrap {
+      position: relative;
+      border-radius: 8px; overflow: hidden;
+      background: #0d0d3a;
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
     }
-    .contact-sub { color: var(--muted); margin-bottom: 2.25rem; font-size: 0.9rem; }
-    .contact-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .project-img-placeholder {
+      font-size: 3rem; opacity: 0.3;
+    }
+    .project-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .project-img-overlay {
+      position: absolute; inset: 0;
+      background: rgba(35,213,171,0.08);
+      transition: background 0.25s;
+    }
+    .project-img-wrap:hover .project-img-overlay {
+      background: rgba(35,213,171,0.0);
+    }
 
-    /* FOOTER */
+    /* ── CONTACT ── */
+    #contact {
+      background: #06062a;
+      text-align: center;
+    }
+    .contact-wrapper { max-width: 600px; margin: 0 auto; }
+    .contact-text {
+      font-size: 1.1rem; color: var(--off);
+      line-height: 1.7; margin-bottom: 2.5rem;
+    }
+    .contact-cta {
+      display: inline-block;
+      padding: 1rem 3rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 4px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(35,213,171,0.3);
+    }
+    .contact-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(35,213,171,0.45);
+    }
+
+    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 1.75rem 3rem;
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
     }
-    .footer-copy { font-size: 0.72rem; color: var(--muted); }
-    .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--muted); }
+    .footer-text { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+    .social-links { display: flex; gap: 1.25rem; }
+    .social-link {
+      font-size: 0.75rem; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .social-link:hover { color: var(--accent); }
 
-    /* FADE */
-    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    @media (max-width: 680px) {
-      nav { padding: 1rem 1.5rem; }
+    @media (max-width: 720px) {
+      #navbar { padding: 1rem 1.5rem; }
       #hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .hero-scroll { left: 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .project-expanded-inner { grid-template-columns: 1fr; gap: 1.5rem; }
-      footer { padding: 1.5rem; }
+      .about-wrapper, .project-row { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 1.5rem; flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <a href="#hero" class="nav-logo">Danny Chen</a>
+<!-- NAV -->
+<nav id="navbar">
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -247,129 +329,121 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-particles"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">GMA · Cathay Financial Holdings</div>
-    <h1 class="hero-name">Danny<br />Chen</h1>
-    <p class="hero-sub">金融策略家 · 以集團視角整合資源，推動數位轉型與跨子公司綜效</p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
-    </div>
+    <p class="hero-greeting">Hi, my name is</p>
+    <h1 class="hero-name">
+      <span class="highlight">Danny Chen</span>
+    </h1>
+    <p class="hero-subtitle">
+      GMA @ 國泰金控 · 金融策略家<br/>
+      以集團視角整合資源，推動數位轉型與跨子公司綜效
+    </p>
+    <a href="#about" class="hero-cta">Know More</a>
   </div>
-  <div class="hero-scroll">Scroll</div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-label">About me</div>
-  <div class="about-grid fade-up">
-    <div>
-      <h2 class="about-title">Strategy.<br /><em>Scale.</em><br />Synergy.</h2>
-      <div class="about-meta">
-        <div class="about-meta-item">Role <span>GMA · 金融策略家</span></div>
-        <div class="about-meta-item">Program <span>2.5yr Cross-group Rotation</span></div>
-        <div class="about-meta-item">Group <span>金控 · 銀行 · 人壽</span></div>
-      </div>
+  <h2 class="section-title">About <span class="text-color-main">Me</span></h2>
+  <span class="section-separator"></span>
+  <div class="about-wrapper reveal">
+    <div class="about-img-wrap">
+      <div class="about-img">👤</div>
+      <!-- 換成你的照片：<img src="profile.jpg" class="about-img" alt="Danny Chen"/> -->
     </div>
-    <div class="about-body">
-      <p>我是 Danny Chen，目前擔任國泰金控 GMA（Group Management Associate）儲備幹部。GMA 是金融業首創的跨集團輪調計畫，橫跨金控、國泰世華銀行、國泰人壽等子公司，致力培養具備策略高度與跨領域思維的金融策略人才。</p>
-      <p>在輪調歷程中，我深入參與集團數位轉型專案與策略企劃，學習以集團全局視角串連不同子公司的資源與專業，透過協同合作發揮綜效，推動創新商業模式與營運效率提升。</p>
-      <p>我相信，真正的價值在於能在複雜的組織中找到槓桿點，讓跨界的能量轉化為可執行的策略成果。</p>
+    <div>
+      <p class="about-info-text">
+        我是 Danny Chen，目前擔任國泰金控 GMA（Group Management Associate）儲備幹部。GMA 是金融業首創的跨集團輪調計畫，橫跨金控、國泰世華銀行、國泰人壽等子公司，致力培養具備策略高度與跨領域思維的金融策略人才。
+      </p>
+      <p class="about-info-text">
+        在輪調歷程中，我深入參與集團數位轉型專案與策略企劃，學習以集團全局視角串連不同子公司的資源與專業，透過協同合作發揮綜效，推動創新商業模式與營運效率提升。
+      </p>
+      <a href="https://www.linkedin.com/in/dannychen29" target="_blank" class="about-cta">View LinkedIn</a>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="section-label">Projects</div>
-  <div class="projects-grid fade-up">
+  <h2 class="section-title">My <span class="text-color-main">Projects</span></h2>
+  <span class="section-separator"></span>
+  <div class="projects-wrapper">
 
-    <!-- Card 1 -->
-    <div class="project-card" onclick="toggleCard(this)">
-      <div class="project-card-header">
-        <div>
-          <div class="project-tag">Strategy · Finance</div>
-          <h3 class="project-title">Project Title 1</h3>
-        </div>
-        <span class="project-toggle">+</span>
-      </div>
-      <p class="project-summary">一句話說明這個 project 是什麼，讓人想點進來看。</p>
-      <div class="project-expanded">
-        <div class="project-expanded-inner">
-          <div>
-            <div class="project-detail-label">Overview</div>
-            <p class="project-detail-text">
-              在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。
-            </p>
-          </div>
-          <div>
-            <div class="project-detail-label">Links & Attachments</div>
+    <!-- Project 1 -->
+    <div class="project-row reveal">
+      <div>
+        <span class="project-tag">Strategy · Finance</span>
+        <h3 class="project-text-title">Project Title 1</h3>
+        <p class="project-desc">一句話說明這個 project 是什麼，讓人想點進來看。</p>
+        <button class="project-detail-toggle" onclick="toggleDetail(this)">
+          詳細說明 <span class="arrow">▾</span>
+        </button>
+        <div class="project-detail-body">
+          <div class="project-detail-inner">
+            <p>在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。</p>
             <div class="project-links">
-              <a href="#" class="project-link"><span class="project-link-icon">📄</span> 查看報告 / 簡報</a>
-              <a href="#" class="project-link"><span class="project-link-icon">🔗</span> 相關新聞連結</a>
-              <a href="#" class="project-link"><span class="project-link-icon">✍️</span> Medium 文章</a>
+              <a href="#" class="project-link">📄 查看報告 / 簡報</a>
+              <a href="#" class="project-link">🔗 相關新聞連結</a>
+              <a href="#" class="project-link">✍️ Medium 文章</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-img-wrap">
+        <!-- 換成你的圖片：<img src="project1.jpg" alt="Project 1"/> -->
+        <span class="project-img-placeholder">📊</span>
+        <div class="project-img-overlay"></div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-row reveal">
+      <div class="project-img-wrap">
+        <span class="project-img-placeholder">🏦</span>
+        <div class="project-img-overlay"></div>
+      </div>
+      <div>
+        <span class="project-tag">Research · Data</span>
+        <h3 class="project-text-title">Project Title 2</h3>
+        <p class="project-desc">一句話說明這個 project 是什麼，讓人想點進來看。</p>
+        <button class="project-detail-toggle" onclick="toggleDetail(this)">
+          詳細說明 <span class="arrow">▾</span>
+        </button>
+        <div class="project-detail-body">
+          <div class="project-detail-inner">
+            <p>在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。</p>
+            <div class="project-links">
+              <a href="#" class="project-link">📄 查看報告 / 簡報</a>
+              <a href="#" class="project-link">🔗 相關新聞連結</a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="project-card" onclick="toggleCard(this)">
-      <div class="project-card-header">
-        <div>
-          <div class="project-tag">Research · Data</div>
-          <h3 class="project-title">Project Title 2</h3>
-        </div>
-        <span class="project-toggle">+</span>
-      </div>
-      <p class="project-summary">一句話說明這個 project 是什麼，讓人想點進來看。</p>
-      <div class="project-expanded">
-        <div class="project-expanded-inner">
-          <div>
-            <div class="project-detail-label">Overview</div>
-            <p class="project-detail-text">
-              在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。
-            </p>
-          </div>
-          <div>
-            <div class="project-detail-label">Links & Attachments</div>
+    <!-- Project 3 -->
+    <div class="project-row reveal">
+      <div>
+        <span class="project-tag">Innovation · Fintech</span>
+        <h3 class="project-text-title">Project Title 3</h3>
+        <p class="project-desc">一句話說明這個 project 是什麼，讓人想點進來看。</p>
+        <button class="project-detail-toggle" onclick="toggleDetail(this)">
+          詳細說明 <span class="arrow">▾</span>
+        </button>
+        <div class="project-detail-body">
+          <div class="project-detail-inner">
+            <p>在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。</p>
             <div class="project-links">
-              <a href="#" class="project-link"><span class="project-link-icon">📄</span> 查看報告 / 簡報</a>
-              <a href="#" class="project-link"><span class="project-link-icon">🔗</span> 相關新聞連結</a>
+              <a href="#" class="project-link">📄 查看報告 / 簡報</a>
+              <a href="#" class="project-link">🔗 相關新聞連結</a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="project-card" onclick="toggleCard(this)">
-      <div class="project-card-header">
-        <div>
-          <div class="project-tag">Innovation · Fintech</div>
-          <h3 class="project-title">Project Title 3</h3>
-        </div>
-        <span class="project-toggle">+</span>
-      </div>
-      <p class="project-summary">一句話說明這個 project 是什麼，讓人想點進來看。</p>
-      <div class="project-expanded">
-        <div class="project-expanded-inner">
-          <div>
-            <div class="project-detail-label">Overview</div>
-            <p class="project-detail-text">
-              在這裡放這個 side project 的詳細說明：背景、你做了什麼、學到了什麼、有什麼成果。可以寫 3–5 句話，不需要太長。
-            </p>
-          </div>
-          <div>
-            <div class="project-detail-label">Links & Attachments</div>
-            <div class="project-links">
-              <a href="#" class="project-link"><span class="project-link-icon">📄</span> 查看報告 / 簡報</a>
-              <a href="#" class="project-link"><span class="project-link-icon">🔗</span> 相關新聞連結</a>
-            </div>
-          </div>
-        </div>
+      <div class="project-img-wrap">
+        <span class="project-img-placeholder">💡</span>
+        <div class="project-img-overlay"></div>
       </div>
     </div>
 
@@ -378,36 +452,45 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-inner fade-up">
-    <div class="section-label" style="justify-content:center;">Contact</div>
-    <h2 class="contact-heading">Let's connect.</h2>
-    <p class="contact-sub">對策略、金融、或任何有趣的想法有興趣聊聊？歡迎聯絡。</p>
-    <div class="contact-links">
-      <a href="mailto:dany210920@gmail.com" class="btn btn-primary">Email me</a>
-      <a href="https://www.linkedin.com/in/dannychen29" target="_blank" class="btn btn-outline">LinkedIn</a>
-      <a href="https://medium.com/@dannychen29" target="_blank" class="btn btn-outline">Medium</a>
-    </div>
+  <h2 class="section-title">Contact <span class="text-color-main">Me</span></h2>
+  <span class="section-separator"></span>
+  <div class="contact-wrapper reveal">
+    <p class="contact-text">
+      對策略、金融、或任何有趣的想法有興趣聊聊？<br/>
+      歡迎透過以下方式聯絡我。
+    </p>
+    <a href="https://mail.google.com/mail/?view=cm&to=dany210920@gmail.com" target="_blank" class="contact-cta">Say Hello</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-copy">© 2025 Danny Chen · dannychen29.github.io</span>
-  <span class="footer-name">GMA @ Cathay Financial Holdings</span>
+  <p class="footer-text">© 2025 Danny Chen · dannychen29.github.io</p>
+  <div class="social-links">
+    <a href="https://www.linkedin.com/in/dannychen29" target="_blank" class="social-link">LinkedIn</a>
+    <a href="https://medium.com/@dannychen29" target="_blank" class="social-link">Medium</a>
+  </div>
 </footer>
 
 <script>
-  function toggleCard(card) {
-    const isOpen = card.classList.contains('open');
-    document.querySelectorAll('.project-card.open').forEach(c => c.classList.remove('open'));
-    if (!isOpen) card.classList.add('open');
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Project detail toggle — each card independent
+  function toggleDetail(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
   }
 
+  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-
 </body>
 </html>
