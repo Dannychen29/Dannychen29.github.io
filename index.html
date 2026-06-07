@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danny Chen | GMA @ Cathay Financial Holdings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0e;
+      --surface: #141416;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --accent: #c9a96e;
+      --accent-dim: rgba(201,169,110,0.12);
+      --accent-dim2: rgba(201,169,110,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(12,12,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 400;
+      letter-spacing: 0.08em; color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 70%, rgba(201,169,110,0.04) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--accent);
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 300; line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-sub {
+      font-size: 1rem; color: var(--muted);
+      margin-bottom: 2.5rem; max-width: 520px;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+      font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0c0c0e;
+      border-radius: 2px;
+    }
+    .btn-primary:hover { background: #dbbf7e; }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border-hover); border-radius: 2px;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 3rem;
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 0.6rem;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+    .hero-scroll::after {
+      content: '↓';
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; }
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-label::after {
+      content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent);
+    }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem; align-items: start;
+      max-width: 1000px;
+    }
+    .about-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; line-height: 1.2;
+      color: var(--text);
+    }
+    .about-title em { font-style: italic; color: var(--accent); }
+    .about-body { color: var(--muted); line-height: 1.85; }
+    .about-body p + p { margin-top: 1.2rem; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      margin-top: 2.5rem; border: 1px solid var(--border);
+    }
+    .stat {
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; color: var(--muted);
+      letter-spacing: 0.08em; margin-top: 0.3rem;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { border-top: 1px solid var(--border); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      max-width: 1000px;
+    }
+    .project-card {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.25s;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .project-card:hover { background: var(--accent-dim2); }
+    .project-tag {
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400;
+      color: var(--text); margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    }
+    .project-arrow {
+      display: inline-block; margin-top: 1.5rem;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+    .project-card:hover .project-arrow { transform: translateX(6px); }
+
+    /* ── CONTACT ── */
+    #contact {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .contact-inner { max-width: 600px; margin: 0 auto; }
+    .contact-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    .contact-sub {
+      color: var(--muted); margin-bottom: 2.5rem; font-size: 0.95rem;
+    }
+    .contact-links {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; color: var(--muted);
+    }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      #hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero-scroll { left: 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Danny Chen</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">GMA · Cathay Financial Holdings</div>
+      <h1 class="hero-name">Danny<br />Chen</h1>
+      <p class="hero-sub">金融策略家 · 以集團視角整合資源，推動數位轉型與跨子公司綜效</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About me</div>
+    <div class="about-grid fade-up">
+      <div>
+        <h2 class="about-title">Strategy.<br /><em>Scale.</em><br />Synergy.</h2>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-number">2.5yr</div>
+            <div class="stat-label">Cross-group rotation</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Subsidiaries covered</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-body">
+        <p>
+          我是 Danny Chen，目前擔任國泰金控 GMA（Group Management Associate）儲備幹部。GMA 是金融業首創的跨集團輪調計畫，橫跨金控、國泰世華銀行、國泰人壽等子公司，致力於培養具備策略高度與跨領域思維的金融策略人才。
+        </p>
+        <p>
+          在輪調歷程中，我深入參與集團數位轉型專案與策略企劃，學習如何以集團全局視角串連不同子公司的資源與專業，透過協同合作發揮綜效，推動創新商業模式與營運效率提升。
+        </p>
+        <p>
+          我相信，真正的價值在於能在複雜的組織中找到槓桿點，讓跨界的能量轉化為可執行的策略成果。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Side Projects</div>
+    <div class="projects-grid fade-up">
+
+      <!-- 範例 Project 1 -->
+      <a href="#" class="project-card">
+        <div class="project-tag">Research · Finance</div>
+        <h3 class="project-title">Project Title 1</h3>
+        <p class="project-desc">簡短描述這個 side project 在做什麼、你學到什麼、或解決了什麼問題。2–3 句即可。</p>
+        <span class="project-arrow">View →</span>
+      </a>
+
+      <!-- 範例 Project 2 -->
+      <a href="#" class="project-card">
+        <div class="project-tag">Strategy · Data</div>
+        <h3 class="project-title">Project Title 2</h3>
+        <p class="project-desc">簡短描述這個 side project 在做什麼、你學到什麼、或解決了什麼問題。2–3 句即可。</p>
+        <span class="project-arrow">View →</span>
+      </a>
+
+      <!-- 範例 Project 3 -->
+      <a href="#" class="project-card">
+        <div class="project-tag">Innovation · Fintech</div>
+        <h3 class="project-title">Project Title 3</h3>
+        <p class="project-desc">簡短描述這個 side project 在做什麼、你學到什麼、或解決了什麼問題。2–3 句即可。</p>
+        <span class="project-arrow">View →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner fade-up">
+      <div class="section-label" style="justify-content:center;">Contact</div>
+      <h2 class="contact-heading">Let's connect.</h2>
+      <p class="contact-sub">對策略、金融、或任何有趣的想法有興趣聊聊？歡迎聯絡。</p>
+      <div class="contact-links">
+        <a href="mailto:dany210920@gmail.com" class="btn btn-primary">Email me</a>
+        <a href="https://www.linkedin.com/in/dannychen29" target="_blank" class="btn btn-outline">LinkedIn</a>
+        <a href="https://github.com/Dannychen29" target="_blank" class="btn btn-outline">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2025 Danny Chen · dannychen29.github.io</span>
+    <span class="footer-name">GMA @ Cathay Financial Holdings</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
